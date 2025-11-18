@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FlowBiz – Smart Business for Tradespeople</title>
+  <meta name="description" content="FlowBiz helps builders, plumbers, electricians and all tradespeople create quotes, invoices, track jobs, timesheets and payments in one simple app.">
+  <style>
+    :root {
+      --bg: #050816;
+      --bg-alt: #0b1020;
+      --card: #111827;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.1);
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --danger: #f97373;
+      --radius-xl: 1.5rem;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #1f2937 0, #020617 40%, #000 100%);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .page {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 1.5rem 1.25rem 4rem;
+    }
+
+    /* NAV */
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 0.9rem;
+      background: linear-gradient(135deg, #38bdf8, #22c55e);
+      display: grid;
+      place-items: center;
+      box-shadow: 0 0 25px rgba(56, 189, 248, 0.6);
+    }
+
+    .logo-icon span {
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: #020617;
+    }
+
+    .logo-text-main {
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-size: 0.92rem;
+    }
+
+    .logo-text-sub {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .pill {
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    /* HERO */
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: 2.5rem;
+      align-items: center;
+      margin-bottom: 3.5rem;
+    }
+
+    .hero-title {
+      font-size: clamp(2.2rem, 3vw + 1.4rem, 3.3rem);
+      font-weight: 800;
+      letter-spacing: 0.01em;
+      margin-bottom: 1rem;
+    }
+
+    .hero-title span {
+      background: linear-gradient(135deg, #38bdf8, #22c55e);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero-sub {
+      color: var(--muted);
+      max-width: 34rem;
+      font-size: 0.98rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-badge {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.7rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+    }
+
+    .hero-cta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+      margin-bottom: 1.75rem;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #38bdf8, #22c55e);
+      color: #020617;
+      border-radius: 999px;
+      padding: 0.8rem 1.4rem;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 16px 40px rgba(56, 189, 248, 0.4);
+    }
+
+    .btn-outline {
+      background: rgba(15, 23, 42, 0.85);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 0.78rem 1.3rem;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 0.9rem;
+      display: inline-flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .hero-footnote {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .hero-side {
+      background: radial-gradient(circle at top, rgba(56, 189, 248, 0.15), transparent 55%),
+                  linear-gradient(145deg, #020617, #020617 45%, #0b1120 100%);
+      border-radius: var(--radius-xl);
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      padding: 1.5rem 1.4rem;
+      box-shadow: 0 30px 80px rgba(15, 23, 42, 0.8);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-side-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .hero-side-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .hero-side-tag {
+      font-size: 0.72rem;
+      padding: 0.15rem 0.6rem;
+      border-radius: 999px;
+      background: rgba(22, 163, 74, 0.15);
+      color: #bbf7d0;
+      border: 1px solid rgba(74, 222, 128, 0.5);
+    }
+
+    .mini-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-bottom: 1.3rem;
+    }
+
+    .metric-card {
+      background: rgba(15, 23, 42, 0.95);
+      border-radius: 0.9rem;
+      padding: 0.65rem 0.7rem;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+    }
+
+    .metric-label {
+      font-size: 0.68rem;
+      color: var(--muted);
+      margin-bottom: 0.15rem;
+    }
+
+    .metric-value {
+      font-size: 0.92rem;
+      font-weight: 600;
+    }
+
+    .metric-tag {
+      font-size: 0.64rem;
+      color: #4ade80;
+    }
+
+    .list {
+      margin-top: 0.4rem;
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    .list li {
+      margin-left: 0.9rem;
+      margin-bottom: 0.12rem;
+    }
+
+    .side-footer {
+      border-top: 1px dashed rgba(55, 65, 81, 0.8);
+      padding-top: 0.8rem;
+      margin-top: 0.6rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    .side-avatar {
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #38bdf8, #22c55e);
+      display: grid;
+      place-items: center;
+      font-size: 0.7rem;
+      color: #020617;
+      font-weight: 700;
+    }
+
+    .side-safe {
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    /* FEATURES */
+    .section {
+      margin-bottom: 3.5rem;
+    }
+
+    .section-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .section-kicker {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .section-sub {
+      color: var(--muted);
+      font-size: 0.9rem;
+      max-width: 36rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.3rem;
+    }
+
+    .card {
+      background: rgba(15, 23, 42, 0.96);
+      border-radius: 1.1rem;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      padding: 1.1rem 1.1rem 1rem;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .card-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 0.7rem;
+      background: var(--accent-soft);
+      display: grid;
+      place-items: center;
+      font-size: 1rem;
+    }
+
+    .card-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .card-body {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .card-tagline {
+      font-size: 0.75rem;
+      color: #a5b4fc;
+    }
+
+    /* HOW IT WORKS */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .step {
+      position: relative;
+      padding: 0.9rem 0.9rem 0.8rem;
+      border-radius: 1rem;
+      background: rgba(15, 23, 42, 0.96);
+      border: 1px dashed rgba(148, 163, 184, 0.6);
+    }
+
+    .step-number {
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      display: grid;
+      place-items: center;
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .step-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+    }
+
+    .step-body {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    /* PRICING */
+    .pricing-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+      gap: 1.5rem;
+      align-items: stretch;
+    }
+
+    .price-card {
+      background: radial-gradient(circle at top, rgba(56, 189, 248, 0.2), transparent 60%),
+                  rgba(15, 23, 42, 0.98);
+      border-radius: 1.3rem;
+      padding: 1.3rem 1.3rem 1.1rem;
+      border: 1px solid rgba(56, 189, 248, 0.7);
+      box-shadow: 0 24px 60px rgba(15, 23, 42, 0.9);
+    }
+
+    .price-badge {
+      font-size: 0.7rem;
+      padding: 0.15rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid rgba(251, 191, 36, 0.8);
+      background: rgba(161, 98, 7, 0.4);
+      color: #fef9c3;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .price-main {
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin-bottom: 0.15rem;
+    }
+
+    .price-main span {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    .price-note {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 0.8rem;
+    }
+
+    .price-list {
+      list-style: none;
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 0.9rem;
+    }
+
+    .price-list li {
+      margin-bottom: 0.25rem;
+      padding-left: 1rem;
+      position: relative;
+    }
+
+    .price-list li::before {
+      content: "✔";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: #4ade80;
+      font-size: 0.75rem;
+    }
+
+    .secondary-box {
+      background: rgba(15, 23, 42, 0.96);
+      border-radius: 1.1rem;
+      padding: 1rem 1.1rem;
+      border: 1px dashed rgba(148, 163, 184, 0.6);
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .secondary-box strong {
+      color: var(--text);
+    }
+
+    /* TESTIMONIAL & CONTACT */
+    .quote-card {
+      background: rgba(15, 23, 42, 0.96);
+      border-radius: 1.1rem;
+      padding: 1rem 1.1rem;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 1.4rem;
+    }
+
+    .quote-card span {
+      color: var(--text);
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.1rem;
+      font-size: 0.8rem;
+    }
+
+    .contact-item {
+      background: rgba(15, 23, 42, 0.96);
+      border-radius: 1rem;
+      padding: 0.9rem 0.95rem;
+      border: 1px dashed rgba(148, 163, 184, 0.6);
+    }
+
+    .contact-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      margin-bottom: 0.25rem;
+    }
+
+    .contact-value {
+      font-size: 0.86rem;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid rgba(30, 41, 59, 0.9);
+      margin-top: 1.5rem;
+      padding-top: 1.1rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: underline;
+      text-decoration-style: dotted;
+      text-decoration-thickness: 1px;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 840px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .hero-side {
+        order: -1;
+      }
+      .grid-3,
+      .steps {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .pricing-layout {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .hero-cta {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .grid-3,
+      .steps,
+      .contact-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .page {
+        padding-inline: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <!-- NAV -->
+    <header class="nav">
+      <div class="logo">
+        <div class="logo-icon"><span>FB</span></div>
+        <div>
+          <div class="logo-text-main">FlowBiz</div>
+          <div class="logo-text-sub">Smart business for tradespeople</div>
+        </div>
+      </div>
+      <div class="nav-right">
+        <span class="pill">
+          <span>🔐</span>
+          <span>Data hosted securely</span>
+        </span>
+      </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div>
+        <p class="section-kicker">Built for builders & trades</p>
+        <h1 class="hero-title">
+          Run your whole trade business<br />
+          from one simple <span>FlowBiz</span> dashboard.
+        </h1>
+        <p class="hero-sub">
+          Quotes, invoices, timesheets, job tracking and payments – all in one place,
+          designed for builders, plumbers, electricians, decorators and every trade
+          that hates paperwork.
+        </p>
+
+        <div class="hero-badges">
+          <span class="hero-badge">✅ Professional quotes & invoices</span>
+          <span class="hero-badge">⏱ Timesheets & labour tracking</span>
+          <span class="hero-badge">📎 Photos, receipts & documents</span>
+        </div>
+
+        <div class="hero-cta">
+          <button class="btn-primary">
+            Get early access
+            <span>→</span>
+          </button>
+          <button class="btn-outline">
+            View demo workflow
+          </button>
+        </div>
+
+        <p class="hero-footnote">
+          FlowBiz is currently in private beta. We’re onboarding a small group of
+          serious tradespeople to shape the product – including builders like you.
+        </p>
+      </div>
+
+      <!-- HERO SIDE PANEL -->
+      <aside class="hero-side" aria-label="FlowBiz preview">
+        <div class="hero-side-header">
+          <div>
+            <div class="hero-side-title">Today at a glance</div>
+            <div class="side-safe">Jobs · Invoices · Cashflow</div>
+          </div>
+          <span class="hero-side-tag">Live preview</span>
+        </div>
+
+        <div class="mini-metrics">
+          <div class="metric-card">
+            <div class="metric-label">Invoices waiting</div>
+            <div class="metric-value">3</div>
+            <div class="metric-tag">£2,430 outstanding</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Jobs this week</div>
+            <div class="metric-value">7</div>
+            <div class="metric-tag">4 in progress</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Team hours</div>
+            <div class="metric-value">62.5</div>
+            <div class="metric-tag">Auto timesheets</div>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-label">Next actions</div>
+          <ul class="list">
+            <li>Send quote to Giorgia – bathroom renovation</li>
+            <li>Mark Paul’s loft as completed & generate invoice</li>
+            <li>Upload receipts for materials from Selco & Screwfix</li>
+          </ul>
+        </div>
+
+        <div class="side-footer">
+          <div style="display:flex;align-items:center;gap:0.55rem;">
+            <div class="side-avatar">MR</div>
+            <div>
+              <div style="font-size:0.78rem;">“FlowBiz keeps my jobs under control.”</div>
+              <div style="font-size:0.7rem;color:var(--muted);">Mihai · Superior Renovation &amp; Restoration</div>
+            </div>
+          </div>
+          <div class="side-safe">
+            No spreadsheets. No lost WhatsApp messages. Just one clean system.
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="section" id="features">
+      <p class="section-kicker">Why FlowBiz</p>
+      <h2 class="section-title">Everything you need to run your trade business properly.</h2>
+      <p class="section-sub">
+        Built from real site experience, not from an office. FlowBiz is designed around
+        how trades actually work: fast quotes, clear communication, solid paperwork and
+        money in the bank.
+      </p>
+
+      <div class="grid-3">
+        <article class="card">
+          <div class="card-header">
+            <div class="card-icon">📄</div>
+            <h3 class="card-title">Quotes & invoices in seconds</h3>
+          </div>
+          <p class="card-body">
+            Store your materials, labour rates and favourite descriptions. Create clear,
+            professional quotes and invoices with one tap – branded with your company
+            details and VAT number.
+          </p>
+          <p class="card-tagline">No more re-typing the same text in Word.</p>
+        </article>
+
+        <article class="card">
+          <div class="card-header">
+            <div class="card-icon">👷</div>
+            <h3 class="card-title">Jobs, stages & team</h3>
+          </div>
+          <p class="card-body">
+            Track each job from first phone call to final payment. See what site your
+            team is on today, what’s completed, what’s waiting on materials and what
+            still needs pricing.
+          </p>
+          <p class="card-tagline">Perfect for solo traders or small crews.</p>
+        </article>
+
+        <article class="card">
+          <div class="card-header">
+            <div class="card-icon">💷</div>
+            <h3 class="card-title">Cashflow under control</h3>
+          </div>
+          <p class="card-body">
+            See at a glance who owes you money, what’s overdue and what’s coming next
+            week. Attach bank payments and mark invoices as paid in a couple of taps.
+          </p>
+          <p class="card-tagline">Know your numbers without being an accountant.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="section" id="how-it-works">
+      <p class="section-kicker">How it works</p>
+      <h2 class="section-title">From phone call to paid – in three simple steps.</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-title">Capture the job properly</div>
+          <p class="step-body">
+            Add the client, address, photos and notes straight from your phone. No more
+            searching chats and paper for details when you sit down to price.
+          </p>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-title">Price & send in minutes</div>
+          <p class="step-body">
+            Select materials and labour from your saved list, adjust margins and send a
+            professional PDF by email or WhatsApp right from FlowBiz.
+          </p>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <div class="step-title">Track, finish, get paid</div>
+          <p class="step-body">
+            Mark stages as complete, auto-generate invoices from accepted quotes and
+            keep a clear history for every job – perfect for clients, accountants and
+            HMRC.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRICING -->
+    <section class="section" id="pricing">
+      <p class="section-kicker">Pricing</p>
+      <h2 class="section-title">Simple, honest pricing – made for small trade businesses.</h2>
+      <div class="section-sub">
+        FlowBiz will launch with founder pricing for the first group of serious users.
+        No hidden fees, no long contracts, cancel any time.
+      </div>
+
+      <div class="pricing-layout">
+        <div class="price-card">
+          <div class="price-badge">Founding Trade Partner</div>
+          <div class="price-main">£19<span>/month (ex. VAT)</span></div>
+          <p class="price-note">
+            Early-access price for builders and trades who help shape the platform.
+          </p>
+          <ul class="price-list">
+            <li>Unlimited quotes & invoices</li>
+            <li>Up to 5 active jobs tracked at once</li>
+            <li>Client & site database</li>
+            <li>Timesheets & labour tracking</li>
+            <li>Attach photos, PDFs & receipts</li>
+            <li>Export for accountant / HMRC</li>
+          </ul>
+
+          <button class="btn-primary" style="width:100%;justify-content:center;">
+            Join the early access list
+          </button>
+          <p class="hero-footnote" style="margin-top:0.6rem;">
+            You won’t be charged today. We’ll contact you when your account is ready.
+          </p>
+        </div>
+
+        <div class="secondary-box">
+          <p style="margin-bottom:0.4rem;">
+            <strong>Got more than 5 people on your team?</strong><br />
+            We’re working on a crew plan with multiple users, separate permissions and
+            job roles (estimator, admin, site team).
+          </p>
+          <p>
+            Tell us how you run your business – we’ll make sure FlowBiz fits the way
+            your crew actually works, not the other way round.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIAL & CONTACT -->
+    <section class="section" id="contact">
+      <p class="section-kicker">Who is FlowBiz for?</p>
+      <h2 class="section-title">If you live in work boots, not in Excel – this is for you.</h2>
+
+      <div class="quote-card">
+        “Most trade software is built by people who’ve never carried plasterboard or
+        ripped out a bathroom. FlowBiz is different – it’s built around real UK
+        renovation work: jobs, materials, stage payments and clients that message you
+        at 10pm.”
+        <br /><br />
+        <span>FlowBiz is being shaped together with real builders and tradespeople.</span>
+      </div>
+
+      <div class="contact-grid">
+        <div class="contact-item">
+          <div class="contact-label">Register interest</div>
+          <div class="contact-value">
+            Send an email to: <br />
+            <strong>hello@flowbiz.tech</strong><br />
+            (or use your usual email once it’s set up)
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-label">What to include</div>
+          <div class="contact-value">
+            Tell us:
+            <ul class="list" style="margin-top:0.3rem;">
+              <li>What trade you are</li>
+              <li>How many people in your team</li>
+              <li>Biggest headache in your paperwork right now</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <span>© <span id="year"></span> FlowBiz. All rights reserved.</span>
+      <span>
+        Powered by GitHub Pages · Domain:
+        <a href="https://flowbiz.tech">flowbiz.tech</a>
+      </span>
+    </footer>
+  </div>
+
+  <script>
+    // Set current year in footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
